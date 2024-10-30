@@ -17,15 +17,18 @@ class monitor extends uvm_monitor;
   	virtual task run_phase(uvm_phase phase);
     		super.run_phase(phase);
     		forever begin
-      		@(vif.cb);
-        		if(!vif.rstn) begin
-		  		Item item = Item::type_id::create("item");
-		  		item.in1 = vif.in1;
-				item.in2 = vif.in2;
-		  		item.out = vif.cb.out;
-		  		mon_analysis_port.write(item);
-		  		`uvm_info("MON",$sformatf("SAW item %s", item.convert2str()),UVM_HIGH);
-        		end
+      			@(vif.cb)begin
+				Item item = Item::type_id::create("item");
+				item.r_mode = vif.r_mode;
+			  	item.fp_X = vif.fp_X;
+				item.fp_Y = vif.fp_Y;
+			  	item.fp_Z = vif.cb.fp_Z;
+				item.ovrf = vif.cb.ovrf;
+				item.udrf = vif.cb.udrf;
+			  	mon_analysis_port.write(item);
+			  	`uvm_info("MON",$sformatf("SAW item %s", item.convert2str()),UVM_HIGH)
+
+			end
     		end
   	endtask
 endclass

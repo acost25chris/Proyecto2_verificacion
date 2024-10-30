@@ -1,19 +1,26 @@
 class Item extends uvm_sequence_item;
-  	rand bit [7:0] in1, in2;
-  	bit [8:0] out;
+	bit [2:0] r_mode;
+  	rand bit [31:0] fp_X, fp_Y;
+  	bit [31:0] fp_Z;
+	bit ovrf, udrf;
 
 	`uvm_object_utils_begin(Item)
-		`uvm_field_int(in1,UVM_DEFAULT)
-		`uvm_field_int(in2,UVM_DEFAULT)
-		`uvm_field_int(out,UVM_DEFAULT)
+		`uvm_field_int(r_mode,UVM_DEFAULT)
+		`uvm_field_int(fp_X,UVM_DEFAULT)
+		`uvm_field_int(fp_Y,UVM_DEFAULT)
+		`uvm_field_int(fp_Z,UVM_DEFAULT)
+		`uvm_field_int(ovrf,UVM_DEFAULT)
+		`uvm_field_int(udrf,UVM_DEFAULT)
 	`uvm_object_utils_end
+
+	//constraint
 
   	function new(string name = "Item");
     		super.new(name);
   	endfunction
 
 	virtual function string convert2str();
-    		return $sformatf("in1=%0d, in2=%0d, out=%0d",in1, in2, out);
+    		return $sformatf("in1=%0d, in2=%0d, out=%0d",fp_X, fp_Y, fp_Z);
   	endfunction
 endclass
 

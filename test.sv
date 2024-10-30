@@ -6,7 +6,7 @@ class base_test extends uvm_test;
   	endfunction
   
   	env e0;
-  	num_sum_seq  seq;
+  	gen_item_seq  seq;
   	virtual des_if  vif;
 
   	virtual function void build_phase(uvm_phase phase);
@@ -19,24 +19,15 @@ class base_test extends uvm_test;
     		uvm_config_db#(virtual des_if)::set(this, "e0.a0.*","des_vif",vif);
     
 
-    		seq = num_sum_seq::type_id::create("seq");
+    		seq = gen_item_seq::type_id::create("seq");
     		seq.randomize();
   	endfunction
 
   	virtual task run_phase(uvm_phase phase);
     		phase.raise_objection(this);
-    		apply_reset();
     		seq.start(e0.a0.s0);
     		#200;
     		phase.drop_objection(this);
   	endtask
 
-  	virtual task apply_reset();
-    		vif.rstn <= 1;
-    		vif.in1 <= 0;
-		vif.in2 <= 0;
-    		repeat(5) @(posedge vif.clk);
-    		vif.rstn <=0;
-    		repeat(10) @(posedge vif.clk);
-  	endtask
 endclass
