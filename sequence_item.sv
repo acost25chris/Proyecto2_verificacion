@@ -1,7 +1,8 @@
 class Item extends uvm_sequence_item;
 	bit [2:0] r_mode;
-  	rand bit [31:0] fp_X, fp_Y;
+  	randc bit [31:0] fp_X, fp_Y;
   	bit [31:0] fp_Z;
+	bit [31:0] fp_esperado;
 	bit ovrf, udrf;
 
 	`uvm_object_utils_begin(Item)

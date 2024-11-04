@@ -28,6 +28,7 @@ class base_test extends uvm_test;
     		seq.start(e0.a0.s0);
     		#200;
     		phase.drop_objection(this);
+		e0.sb0.documento_csv();
   	endtask
 
 endclass
