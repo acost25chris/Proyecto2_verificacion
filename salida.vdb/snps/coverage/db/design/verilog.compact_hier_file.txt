@@ -1,3 +1,0 @@
-\$unit::/mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/macros/snps_macros.svp::/mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/macros/uvm_callback_defines.svh...@4218100553 00
-uvm_custom_install_recording170
-tb170
