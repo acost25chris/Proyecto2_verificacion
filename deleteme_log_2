@@ -1,0 +1,144 @@
+Chronologic VCS simulator copyright 1991-2020
+Contains Synopsys proprietary information.
+Compiler version R-2020.12-SP2_Full64; Runtime version R-2020.12-SP2_Full64;  Nov  9 10:13 2024
+UVM_INFO /mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/base/uvm_root.svh(402) @ 0: reporter [UVM/RELNOTES] 
+----------------------------------------------------------------
+UVM-1.2.Synopsys
+(C) 2007-2014 Mentor Graphics Corporation
+(C) 2007-2014 Cadence Design Systems, Inc.
+(C) 2006-2014 Synopsys, Inc.
+(C) 2011-2013 Cypress Semiconductor Corp.
+(C) 2013-2014 NVIDIA Corporation
+----------------------------------------------------------------
+
+  ***********       IMPORTANT RELEASE NOTES         ************
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_NO_DEPRECATED undefined.
+  See http://www.eda.org/svdb/view.php?id=3313 for more details.
+
+  You are using a version of the UVM library that has been compiled
+  with `UVM_OBJECT_DO_NOT_NEED_CONSTRUCTOR undefined.
+  See http://www.eda.org/svdb/view.php?id=3770 for more details.
+
+      (Specify +UVM_NO_RELNOTES to turn off this notice)
+
+UVM_INFO @ 0: reporter [RNTST] Running test base_test...
+UVM_INFO driver.sv(19) @ 0: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 0: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=387448212, in2=4103606644, out=0
+UVM_INFO driver.sv(19) @ 10: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 10: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=479986526, in2=2396264910, out=0
+UVM_INFO scoreboard.sv(39) @ 30: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=3425997273 expected=3425997273
+UVM_INFO monitor.sv(29) @ 30: uvm_test_top.e0.a0.m0 [MON] SAW item in1=387448212, in2=4103606644, out=3425997273
+UVM_INFO driver.sv(19) @ 30: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 30: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=315753201, in2=3384677673, out=0
+UVM_INFO scoreboard.sv(31) @ 50: uvm_test_top.e0.sb0 [SCBD] in1=479986526 in2=2396264910 DUT_out=2147483648 round mode=1
+UVM_INFO scoreboard.sv(39) @ 50: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=2147483648 expected=2147483648
+UVM_INFO monitor.sv(29) @ 50: uvm_test_top.e0.a0.m0 [MON] SAW item in1=479986526, in2=2396264910, out=2147483648
+UVM_INFO driver.sv(19) @ 50: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 50: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=3069510182, in2=1225462618, out=0
+UVM_INFO scoreboard.sv(31) @ 70: uvm_test_top.e0.sb0 [SCBD] in1=315753201 in2=3384677673 DUT_out=2635853706 round mode=3
+UVM_INFO scoreboard.sv(39) @ 70: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=2635853706 expected=2635853706
+UVM_INFO monitor.sv(29) @ 70: uvm_test_top.e0.a0.m0 [MON] SAW item in1=315753201, in2=3384677673, out=2635853706
+UVM_INFO driver.sv(19) @ 70: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 70: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=1206288973, in2=2857472099, out=0
+UVM_INFO scoreboard.sv(31) @ 90: uvm_test_top.e0.sb0 [SCBD] in1=3069510182 in2=1225462618 DUT_out=3229948592 round mode=0
+UVM_INFO scoreboard.sv(39) @ 90: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=3229948592 expected=3229948592
+UVM_INFO monitor.sv(29) @ 90: uvm_test_top.e0.a0.m0 [MON] SAW item in1=3069510182, in2=1225462618, out=3229948592
+UVM_INFO driver.sv(19) @ 90: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 90: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=2624537208, in2=2029834751, out=0
+UVM_INFO scoreboard.sv(31) @ 110: uvm_test_top.e0.sb0 [SCBD] in1=1206288973 in2=2857472099 DUT_out=2998710883 round mode=1
+UVM_INFO scoreboard.sv(39) @ 110: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=2998710883 expected=2998710883
+UVM_INFO monitor.sv(29) @ 110: uvm_test_top.e0.a0.m0 [MON] SAW item in1=1206288973, in2=2857472099, out=2998710883
+UVM_INFO driver.sv(19) @ 110: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 110: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=1386979938, in2=296382769, out=0
+UVM_INFO scoreboard.sv(31) @ 130: uvm_test_top.e0.sb0 [SCBD] in1=2624537208 in2=2029834751 DUT_out=3589032370 round mode=0
+UVM_INFO scoreboard.sv(39) @ 130: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=3589032370 expected=3589032370
+UVM_INFO monitor.sv(29) @ 130: uvm_test_top.e0.a0.m0 [MON] SAW item in1=2624537208, in2=2029834751, out=3589032370
+UVM_INFO driver.sv(19) @ 130: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 130: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=902419055, in2=620831062, out=0
+UVM_INFO scoreboard.sv(31) @ 150: uvm_test_top.e0.sb0 [SCBD] in1=1386979938 in2=296382769 DUT_out=618957681 round mode=2
+UVM_INFO scoreboard.sv(39) @ 150: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=618957681 expected=618957681
+UVM_INFO monitor.sv(29) @ 150: uvm_test_top.e0.a0.m0 [MON] SAW item in1=1386979938, in2=296382769, out=618957681
+UVM_INFO driver.sv(19) @ 150: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 150: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=2776164969, in2=2622785893, out=0
+UVM_INFO scoreboard.sv(31) @ 170: uvm_test_top.e0.sb0 [SCBD] in1=902419055 in2=620831062 DUT_out=457939620 round mode=3
+UVM_INFO scoreboard.sv(39) @ 170: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=457939620 expected=457939620
+UVM_INFO monitor.sv(29) @ 170: uvm_test_top.e0.a0.m0 [MON] SAW item in1=902419055, in2=620831062, out=457939620
+UVM_INFO driver.sv(19) @ 170: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 170: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=3978327658, in2=1677614460, out=0
+UVM_INFO scoreboard.sv(31) @ 190: uvm_test_top.e0.sb0 [SCBD] in1=2776164969 in2=2622785893 DUT_out=38709174 round mode=2
+UVM_INFO scoreboard.sv(39) @ 190: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=38709174 expected=38709174
+UVM_INFO monitor.sv(29) @ 190: uvm_test_top.e0.a0.m0 [MON] SAW item in1=2776164969, in2=2622785893, out=38709174
+UVM_INFO driver.sv(19) @ 190: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 190: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=1779185771, in2=3207280496, out=0
+UVM_INFO scoreboard.sv(31) @ 210: uvm_test_top.e0.sb0 [SCBD] in1=3978327658 in2=1677614460 DUT_out=4286578688 round mode=2
+UVM_INFO scoreboard.sv(39) @ 210: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=4286578688 expected=4286578688
+UVM_INFO monitor.sv(29) @ 210: uvm_test_top.e0.a0.m0 [MON] SAW item in1=3978327658, in2=1677614460, out=4286578688
+UVM_INFO driver.sv(19) @ 210: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 210: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=2325356395, in2=3510731382, out=0
+UVM_INFO scoreboard.sv(31) @ 230: uvm_test_top.e0.sb0 [SCBD] in1=1779185771 in2=3207280496 DUT_out=3921383449 round mode=3
+UVM_INFO scoreboard.sv(39) @ 230: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=3921383449 expected=3921383449
+UVM_INFO monitor.sv(29) @ 230: uvm_test_top.e0.a0.m0 [MON] SAW item in1=1779185771, in2=3207280496, out=3921383449
+UVM_INFO driver.sv(19) @ 230: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(19) @ 230: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=4208004331, in2=3866417397, out=0
+UVM_INFO scoreboard.sv(31) @ 250: uvm_test_top.e0.sb0 [SCBD] in1=2325356395 in2=3510731382 DUT_out=476643446 round mode=3
+UVM_INFO scoreboard.sv(39) @ 250: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=476643446 expected=476643446
+UVM_INFO monitor.sv(29) @ 250: uvm_test_top.e0.a0.m0 [MON] SAW item in1=2325356395, in2=3510731382, out=476643446
+UVM_INFO driver.sv(19) @ 250: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(22) @ 250: uvm_test_top.e0.a0.s0@@seq [SEQ] Done generation of 13 items
+UVM_INFO sequencer.sv(27) @ 250: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=3270804779, in2=4286578688, out=0
+UVM_INFO scoreboard.sv(31) @ 270: uvm_test_top.e0.sb0 [SCBD] in1=4208004331 in2=3866417397 DUT_out=2139095040 round mode=3
+UVM_INFO scoreboard.sv(39) @ 270: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=2139095040 expected=2139095040
+UVM_INFO monitor.sv(29) @ 270: uvm_test_top.e0.a0.m0 [MON] SAW item in1=4208004331, in2=3866417397, out=2139095040
+UVM_INFO driver.sv(19) @ 270: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(33) @ 270: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=3739632075, in2=2147483648, out=0
+UVM_INFO driver.sv(19) @ 290: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(40) @ 290: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=2147483648, in2=2147483648, out=0
+UVM_INFO scoreboard.sv(31) @ 310: uvm_test_top.e0.sb0 [SCBD] in1=3739632075 in2=2147483648 DUT_out=0 round mode=0
+UVM_ERROR scoreboard.sv(37) @ 310: uvm_test_top.e0.sb0 [SCBD] ERROR: DUT=0 expected=11111011001100100000111001011
+UVM_INFO monitor.sv(29) @ 310: uvm_test_top.e0.a0.m0 [MON] SAW item in1=3739632075, in2=2147483648, out=0
+UVM_INFO driver.sv(19) @ 310: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO sequencer.sv(47) @ 310: uvm_test_top.e0.a0.s0@@seq [SEQ] Generate new item: in1=4286578688, in2=4286578688, out=0
+UVM_INFO driver.sv(19) @ 330: uvm_test_top.e0.a0.d0 [DRV] Wait for item from sequencer
+UVM_INFO scoreboard.sv(31) @ 350: uvm_test_top.e0.sb0 [SCBD] in1=4286578688 in2=4286578688 DUT_out=2139095040 round mode=3
+UVM_INFO scoreboard.sv(39) @ 350: uvm_test_top.e0.sb0 [SCBD] PASS: DUT=2139095040 expected=2139095040
+UVM_INFO monitor.sv(29) @ 350: uvm_test_top.e0.a0.m0 [MON] SAW item in1=4286578688, in2=4286578688, out=2139095040
+[530] Generando reporte CSV
+Reporte CSV generado exitosamente.
+UVM_INFO /mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/base/uvm_objection.svh(1276) @ 530: reporter [TEST_DONE] 'run' phase is ready to proceed to the 'extract' phase
+UVM_INFO /mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/base/uvm_report_catcher.svh(705) @ 530: reporter [UVM/REPORT/CATCHER] 
+--- UVM Report catcher Summary ---
+
+
+Number of demoted UVM_FATAL reports  :    0
+Number of demoted UVM_ERROR reports  :    0
+Number of demoted UVM_WARNING reports:    0
+Number of caught UVM_FATAL reports   :    0
+Number of caught UVM_ERROR reports   :    0
+Number of caught UVM_WARNING reports :    0
+
+UVM_INFO /mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/base/uvm_report_server.svh(901) @ 530: reporter [UVM/REPORT/SERVER] 
+--- UVM Report Summary ---
+
+** Report counts by severity
+UVM_INFO :   83
+UVM_WARNING :    0
+UVM_ERROR :    1
+UVM_FATAL :    0
+** Report counts by id
+[DRV]    18
+[MON]    15
+[RNTST]     1
+[SCBD]    29
+[SEQ]    18
+[TEST_DONE]     1
+[UVM/RELNOTES]     1
+[UVM/REPORT/CATCHER]     1
+
+$finish called from file "/mnt/vol_NFS_rh003/tools/vcs/R-2020.12-SP2/etc/uvm-1.2/base/uvm_root.svh", line 527.
+$finish at simulation time                  530
+           V C S   S i m u l a t i o n   R e p o r t 
+Time: 530
+CPU Time:      0.540 seconds;       Data structure size:   0.6Mb
+Sat Nov  9 10:13:48 2024

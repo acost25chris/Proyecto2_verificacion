@@ -25,8 +25,6 @@ class driver extends uvm_driver #(Item);
 
 
 	  virtual task drive_item(Item m_item);
-		//m_item.fp_X = 32'b01110011001010110111110111100110;
-		//m_item.fp_Y = 32'b01000111101001001110001110001111;
 	    	@(vif.cb);
 	      		vif.cb.fp_Y <= m_item.fp_Y;
 			vif.cb.fp_X <= m_item.fp_X;

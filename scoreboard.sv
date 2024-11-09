@@ -10,7 +10,8 @@ class scoreboard extends uvm_scoreboard;
     	bit [31:0] 	expected_result;
 	Item 		scoreboard_DB[$];
 	Item		item_aux;
-	int		csv_file; 
+	int		csv_file;
+	bit		flag = 0; 
 
     	function new(string name="scoreboard", uvm_component parent=null);
         	super.new(name, parent);
@@ -24,8 +25,13 @@ class scoreboard extends uvm_scoreboard;
     	endfunction
 
     	virtual function void write(Item item);
+		expected_result = 0;
         	expected_mul(item);
-        	`uvm_info("SCBD", $sformatf("in1=%0d in2=%0d DUT_out=%0d round mode=%0d", item.fp_X, item.fp_Y, item.fp_Z, item.r_mode), UVM_LOW)
+		if(flag == 1) begin
+        		`uvm_info("SCBD", $sformatf("in1=%0d in2=%0d DUT_out=%0d round mode=%0d", item.fp_X, item.fp_Y, item.fp_Z, item.r_mode), UVM_LOW)
+		end else begin
+			flag = 1;
+		end
 
         	if (item.fp_Z != expected_result) begin
             		`uvm_error("SCBD", $sformatf("ERROR: DUT=%0b expected=%0b", item.fp_Z, expected_result))
@@ -33,7 +39,7 @@ class scoreboard extends uvm_scoreboard;
             		`uvm_info("SCBD", $sformatf("PASS: DUT=%0d expected=%0d", item.fp_Z, expected_result), UVM_HIGH)
         	end
 	
-		scoreboard_DB.push_back(item);
+		scoreboard_DB.push_back(item); //Guarda el item recibido del monitor
     	endfunction
 
 	virtual function void expected_mul(Item item);
@@ -62,14 +68,14 @@ class scoreboard extends uvm_scoreboard;
 		end
 
 		// Extraer los bits de redondeo (guard, round y sticky)
-		round = mantissa_product[21];
-		guard = mantissa_product[20];
-		sticky = |mantissa_product[19:0]; // Sticky es 1 si cualquier bit en los bits bajos está activo
+		round = mantissa_product[22];
+		guard = mantissa_product[21];
+		sticky = |mantissa_product[20:0]; // Sticky es 1 si cualquier bit en los bits bajos está activo
 
 		// Aplicar el redondeo según el modo seleccionado
 		case (item.r_mode)
 			3'b000: begin // Redondeo al par más cercano (round to nearest, ties to even)
-		        	if (round && guard && sticky) begin
+		        	if (round && (guard || sticky)) begin
 		            		mantissa_final = mantissa_product[45:23] + 1;
 		        	end else begin
 		            		mantissa_final = mantissa_product[45:23];
@@ -110,36 +116,51 @@ class scoreboard extends uvm_scoreboard;
 		endcase
 
 		// Empaquetar el resultado final en IEEE-754
-		if (item.ovrf == 1) begin // Overflow de exponente, resultado es infinito
+		if (item.ovrf == 1) begin // Overflow, resultado es infinito
 		    	expected_result = {sign_result, 8'hFF, 23'h0};
 			item.fp_esperado = expected_result;
-		end else if (item.udrf == 1) begin // Underflow de exponente, resultado es cero
+		
+		end else if (item.udrf == 1) begin // Underflow, resultado es cero
 		    	expected_result = {sign_result, 8'h00, 23'h0};
 			item.fp_esperado = expected_result;
-		end else begin
-			//$display("sign_result %b",mantissa_final);
+
+		end else begin // El resultado esperado es el resultado de la multiplicacion final
 		    	expected_result = {sign_result, exp_result[7:0], mantissa_final};
 			item.fp_esperado = expected_result;
 		end
 	endfunction
 	
 	virtual function void documento_csv();
-		$display("[%g] Generando reporte CSV", $time);
-		csv_file = $fopen("Reporte_scoreboard.csv", "w"); //abre un archivo csv en modo escritura "w"
-		$fwrite(csv_file, "Rounding mode, Dato X, Data Y, Resultado DUT, Resultado esperado, Ovrflow, Underflow\n"); //encabezado del documento
+		$display("[%0t] Generando reporte CSV", $time);
+		csv_file = $fopen("Reporte_scoreboard.csv", "w");
+		if (csv_file == 0) begin
+			$display("Error: No se pudo abrir el archivo CSV para escritura.");
+			return;
+		end
+		
+		// Encabezado del documento CSV con alineación
+		$fwrite(csv_file, "%-15s %-10s %-10s %-15s %-15s %-10s %-10s\n", 
+			"Rounding mode", "Dato X", "Data Y", "Resultado DUT", "Resultado esperado", "Overflow", "Underflow");
+
+		// Escribe cada registro con un ancho de columna alineado
 		foreach (scoreboard_DB[i]) begin
-        		item_aux = scoreboard_DB[i];
-			$fwrite(csv_file, "%b,%h,%h,%h,%h,%b,%b\n",
-			item_aux.r_mode,
-                	item_aux.fp_X,
-			item_aux.fp_Y,  
-                	item_aux.fp_Z,
-			item_aux.fp_esperado, 
-                	item_aux.ovrf, 
-                	item_aux.udrf);
-     		end
+			item_aux = scoreboard_DB[i];
+			$fwrite(csv_file, "%-15b %-10h %-10h %-15h %-18h %-10b %-10b\n",
+				item_aux.r_mode,
+				item_aux.fp_X,
+				item_aux.fp_Y,
+				item_aux.fp_Z,
+				item_aux.fp_esperado,
+				item_aux.ovrf,
+				item_aux.udrf
+			);
+		end
+
+		// Cierra el archivo
 		$fclose(csv_file);
+		$display("Reporte CSV generado exitosamente.");
 	endfunction
+
 endclass
 
     

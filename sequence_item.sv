@@ -1,20 +1,21 @@
 class Item extends uvm_sequence_item;
-	bit [2:0] r_mode;
-  	randc bit [31:0] fp_X, fp_Y;
-  	bit [31:0] fp_Z;
-	bit [31:0] fp_esperado;
-	bit ovrf, udrf;
+	rand bit [2:0] 		r_mode;
+  	randc bit [31:0] 	fp_X, fp_Y;
+  	bit [31:0] 		fp_Z;
+	bit [31:0] 		fp_esperado;
+	bit 			ovrf, udrf;
 
 	`uvm_object_utils_begin(Item)
 		`uvm_field_int(r_mode,UVM_DEFAULT)
 		`uvm_field_int(fp_X,UVM_DEFAULT)
 		`uvm_field_int(fp_Y,UVM_DEFAULT)
 		`uvm_field_int(fp_Z,UVM_DEFAULT)
+		`uvm_field_int(fp_esperado,UVM_DEFAULT)
 		`uvm_field_int(ovrf,UVM_DEFAULT)
 		`uvm_field_int(udrf,UVM_DEFAULT)
 	`uvm_object_utils_end
 
-	//constraint
+	constraint const_r_mode {r_mode >= 3'b00; r_mode < 3'b100;}
 
   	function new(string name = "Item");
     		super.new(name);
