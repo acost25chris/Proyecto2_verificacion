@@ -25,6 +25,13 @@ class monitor extends uvm_monitor;
 				item.fp_Z = vif.cb.fp_Z;
 				item.ovrf = vif.cb.ovrf;
 				item.udrf = vif.cb.udrf;
+
+				// Asserción para verificar que el producto es NaN cuando alguna entrada es NaN
+				assert((item.fp_X != item.fp_X) && (item.fp_Y != item.fp_Y) || (item.fp_Z != item.fp_Z)) 
+				else   `uvm_error("MON_NAN_CHECK", "fp_Z debería ser NaN cuando fp_X o fp_Y son NaN");
+
+				//---------------------------------------
+
 				mon_analysis_port.write(item);
 				`uvm_info("MON",$sformatf("SAW item %s", item.convert2str()),UVM_HIGH)
 			end

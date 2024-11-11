@@ -8,10 +8,13 @@ class scoreboard extends uvm_scoreboard;
     	logic [22:0] 	mantissa_final;
     	bit 		guard, round, sticky;
     	bit [31:0] 	expected_result;
-	Item 		scoreboard_DB[$];
-	Item		item_aux;
-	int		csv_file;
-	bit		flag = 0; 
+		Item 		scoreboard_DB[$];
+		Item		item_aux;
+		int		csv_file;
+		bit		flag = 0; 
+		//variable para la assercion
+		real tolerance = 1e-5;
+		//-------------------------
 
     	function new(string name="scoreboard", uvm_component parent=null);
         	super.new(name, parent);
@@ -32,6 +35,11 @@ class scoreboard extends uvm_scoreboard;
 		end else begin
 			flag = 1;
 		end
+
+		//assercion para confirma que el dato recibido es similar al dato esperado
+		assert((item.fp_Z- expected_result)<tolerance)
+			else `uvm_error("MISMATCH", "Producto en DUT no coincide con el valor esperado.");
+		//-----------------------------------------------------------------------
 
         	if (item.fp_Z != expected_result) begin
             		`uvm_error("SCBD", $sformatf("ERROR: DUT=%0b expected=%0b", item.fp_Z, expected_result))

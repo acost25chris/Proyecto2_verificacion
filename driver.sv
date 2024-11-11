@@ -25,10 +25,20 @@ class driver extends uvm_driver #(Item);
 
 
 	  virtual task drive_item(Item m_item);
+
+			//asserciones para comprobar que los datos enviados sean validos y no tenga un estado indefinido
+			assert(m_item.fp_X !== 'x)
+				else `uvm_error("DRV", "fp_X value is undefined");
+			assert(m_item.fp_Y !== 'x)
+				else `uvm_error("DRV", "fp_y value is undefined");
+			assert(m_item.r_mode !== 'x)
+				else `uvm_error("DRV", "r_mode value is undefined");
+			//--------------------------------------------------------------------------------------------
+
 	    	@(vif.cb);
-	      		vif.cb.fp_Y <= m_item.fp_Y;
-			vif.cb.fp_X <= m_item.fp_X;
-			vif.cb.r_mode <= m_item.r_mode;
+	      		vif.cb.fp_Y   <= m_item.fp_Y;
+				vif.cb.fp_X   <= m_item.fp_X;
+				vif.cb.r_mode <= m_item.r_mode;
 	  endtask
 endclass
 

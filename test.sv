@@ -12,8 +12,13 @@ class base_test extends uvm_test;
   	virtual function void build_phase(uvm_phase phase);
     		super.build_phase(phase);
 
-    		e0 = env::type_id::create("e0",this);
+    		e0 = env::type_id::create("e0",this); 
 
+			//assercion para confirmar que el ambiente se ha construido correctamente 
+			assert(e0 != null)
+				else `uvm_fatal("ENV_NULL", "Environment no inicializado en Test.");
+			//--------------------------------------------------------------
+			
     		if(!uvm_config_db#(virtual des_if)::get(this, "", "des_vif",vif))
       			`uvm_fatal("TEST","Did not get vif")
     		uvm_config_db#(virtual des_if)::set(this, "e0.a0.*","des_vif",vif);

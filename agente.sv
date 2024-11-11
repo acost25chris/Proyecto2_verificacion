@@ -16,6 +16,16 @@ class agent extends uvm_agent;
   	endfunction
 
   	virtual function void connect_phase(uvm_phase phase);
+
+			//assercioens de comproabacion de que los modulos esten debidamente creados
+			assert(s0 !=null)
+				else `uvm_fatal("SEQ_NULL", "Sequencer no inicializado en Agent.");
+			assert(d0 !=null)
+				else `uvm_fatal("DRV_NULL", "Driver no inicializado en Agent.");
+			assert(m0 !=null)
+				 else `uvm_fatal("MON_NULL", "Monitor no inicializado en Agent.");
+			//--------------------------------------------------------------------------
+			
     		super.connect_phase(phase);
     		d0.seq_item_port.connect(s0.seq_item_export);
   	endfunction
