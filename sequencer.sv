@@ -19,6 +19,8 @@ class gen_item_seq extends uvm_sequence;
 				else `uvm_error("SEQ", $sformatf("Aserción fallida: 'num' fuera de rango: %0d", num));
 			//-----------------------------------------------------------
 
+    		//X transacciones randome, incluyendo numeros maximos y minimos
+		Item m_item = Item::type_id::create("m_item");
     		for(int i = 0; i<num;i++)begin
       			start_item(m_item);
       			m_item.randomize();
@@ -28,6 +30,7 @@ class gen_item_seq extends uvm_sequence;
     		`uvm_info("SEQ",$sformatf("Done generation of %0d items", num),UVM_LOW);
 		
 		// Multiplicador es infinito
+		$display("X = inf");
       		start_item(m_item);
       		m_item.randomize();
 		m_item.fp_Y = {1'b1, 8'hFF, 23'h0};
@@ -35,6 +38,7 @@ class gen_item_seq extends uvm_sequence;
       		finish_item(m_item);
 
 		// Multiplicador es cero
+		$display("X = 0");
       		start_item(m_item);
       		m_item.randomize();
 		m_item.fp_Y = {1'b1, 8'h00, 23'h0};
@@ -42,6 +46,7 @@ class gen_item_seq extends uvm_sequence;
       		finish_item(m_item);
 
 		// 0x0 
+		$display("0 x 0");
 		start_item(m_item);
       		m_item.randomize();
 		m_item.fp_X = {1'b1, 8'h00, 23'h0};
@@ -50,9 +55,26 @@ class gen_item_seq extends uvm_sequence;
       		finish_item(m_item);
 
 		// Mltiplicacion invalida ( Inf x Inf )
+		$display("Inf x inf");
 		start_item(m_item);
       		m_item.randomize();
 		m_item.fp_X = {1'b1, 8'hFF, 23'h0};
+		m_item.fp_Y = {1'b1, 8'hFF, 23'h0};
+      		`uvm_info("SEQ",$sformatf("Generate new item: %s", m_item.convert2str()),UVM_HIGH);
+      		finish_item(m_item);
+
+      		// NaN
+		$display("NaN");
+		start_item(m_item);
+      		m_item.randomize();
+		m_item.fp_X = {1'b1, 8'hFF, 23'h0};
+		m_item.fp_Y = {1'b1, 8'h00, 23'h0};
+      		`uvm_info("SEQ",$sformatf("Generate new item: %s", m_item.convert2str()),UVM_HIGH);
+      		finish_item(m_item);
+
+		start_item(m_item);
+      		m_item.randomize();
+		m_item.fp_X = {1'b1, 8'h00, 23'h0};
 		m_item.fp_Y = {1'b1, 8'hFF, 23'h0};
       		`uvm_info("SEQ",$sformatf("Generate new item: %s", m_item.convert2str()),UVM_HIGH);
       		finish_item(m_item);

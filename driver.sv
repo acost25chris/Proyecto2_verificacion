@@ -35,10 +35,12 @@ class driver extends uvm_driver #(Item);
 				else `uvm_error("DRV", "r_mode value is undefined");
 			//--------------------------------------------------------------------------------------------
 
-	    	@(vif.cb);
-	      		vif.cb.fp_Y   <= m_item.fp_Y;
-				vif.cb.fp_X   <= m_item.fp_X;
+	    	if(count == m_item.delay)begin
+			@(vif.cb);
+	      			vif.cb.fp_Y <= m_item.fp_Y;
+				vif.cb.fp_X <= m_item.fp_X;
 				vif.cb.r_mode <= m_item.r_mode;
-	  endtask
+		end
+	endtask
 endclass
 

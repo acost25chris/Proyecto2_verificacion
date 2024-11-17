@@ -75,13 +75,37 @@ class scoreboard extends uvm_scoreboard;
 		    	exp_result = exp_result + 1; // Ajustar el exponente
 		end
 
-		// Extraer los bits de redondeo (guard, round y sticky)
-		round = mantissa_product[22];
-		guard = mantissa_product[21];
-		sticky = |mantissa_product[20:0]; // Sticky es 1 si cualquier bit en los bits bajos está activo
+		//Se revisan los casos especiales (0, infinito y NaN)
+		//X con valor de infinito o 0, Y con valor de 0 o infinito
+		if(((item.fp_X[30:0] == 31'b1111111100000000000000000000000) && (item.fp_Y[30:0] == 31'b0)) || ((item.fp_X[30:0] == 31'b0) && (item.fp_Y[30:0] == 31'b1111111100000000000000000000000))) begin
+			item.fp_esperado = {(item.fp_X[31] ^ item.fp_Y[31]), 31'b1111111110000000000000000000000};
+			expected_result = {(item.fp_X[31] ^ item.fp_Y[31]), 31'b1111111110000000000000000000000};
 
-		// Aplicar el redondeo según el modo seleccionado
-		case (item.r_mode)
+		// X o Y con valor de 0
+		end else if ((item.fp_X[30:0] == 31'b0) || (item.fp_Y[30:0] == 31'b0)) begin
+                	item.fp_esperado = {(item.fp_X[31] ^ item.fp_Y[31]), 8'h00, 23'h0};
+			expected_result = {(item.fp_X[31] ^ item.fp_Y[31]), 8'h00, 23'h0};
+		
+		// X o Y con valor de infinito
+            	end else if((item.fp_X[30:0] == 31'b1111111100000000000000000000000) || (item.fp_Y[30:0] == 31'b1111111100000000000000000000000)) begin
+			item.fp_esperado = {(item.fp_X[31] ^ item.fp_Y[31]), 8'hFF, 23'h0};
+			expected_result = {(item.fp_X[31] ^ item.fp_Y[31]), 8'hFF, 23'h0};
+
+		// X o Y con valor de NaN
+		end else if((item.fp_X[30:0] == 31'b1111111110000000000000000000000) || (item.fp_Y[30:0] == 31'b1111111110000000000000000000000)) begin
+			item.fp_esperado = {(item.fp_X[31] ^ item.fp_Y[31]), 9'b1, 22'b0};
+			expected_result = {(item.fp_X[31] ^ item.fp_Y[31]), 9'b1, 22'b0};
+
+		end else begin
+
+
+			// Extraer los bits de redondeo (guard, round y sticky)
+			round = mantissa_product[22];
+			guard = mantissa_product[21];
+			sticky = |mantissa_product[20:0]; // Sticky es 1 si cualquier bit en los bits bajos está activo
+
+			// Aplicar el redondeo según el modo seleccionado
+			case (item.r_mode)
 			3'b000: begin // Redondeo al par más cercano (round to nearest, ties to even)
 		        	if (round && (guard || sticky)) begin
 		            		mantissa_final = mantissa_product[45:23] + 1;
