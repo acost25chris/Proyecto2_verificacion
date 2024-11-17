@@ -9,6 +9,8 @@ class scoreboard extends uvm_scoreboard;
     	bit 		guard, round, sticky;		// Bits necesarios para trabajar el tipo de redondeo
     	bit [31:0] 	expected_result;		// Variable para comparar el resultado del DUT
 	Item 		scoreboard_DB[$];		// Cola con la funcion de almacenar los Item objects
+	bit		ovrf, udrf;
+
 	Item		item_aux;
 	int		csv_file;
 	bit		flag = 0; 
@@ -33,7 +35,7 @@ class scoreboard extends uvm_scoreboard;
 			flag = 1; //Hardset en 1 el valor de flag para que evite el if anterior en los siguientes write
 		end
 
-        	if (item.fp_Z == expected_result) begin
+        	if ((item.fp_Z == expected_result) && (item.ovrf == ovrf) && (item.udrf == udrf)) begin //Para revisar si el resultado de salida es correcta y si la senal de overflow y underflow funcionan bien
             		`uvm_info("SCBD", $sformatf("PASS: DUT=%0d expected=%0d", item.fp_Z, expected_result), UVM_HIGH)
         	end else begin
 			`uvm_error("SCBD", $sformatf("ERROR: DUT=%0b expected=%0b", item.fp_Z, expected_result))
@@ -43,6 +45,8 @@ class scoreboard extends uvm_scoreboard;
     	endfunction
 
 	virtual function void expected_mul(Item item);
+		udrf = 0; 
+		ovrf = 0;
 		// Extraer el signo, el exponente y la mantisa de los operandos
 		sign_X = item.fp_X[31];
 		sign_Y = item.fp_Y[31];
@@ -65,6 +69,13 @@ class scoreboard extends uvm_scoreboard;
 		if(mantissa_product[47] == 1) begin
 		    	mantissa_product = mantissa_product >> 1; // Desplazar a la derecha
 		    	exp_result = exp_result + 1; // Ajustar el exponente
+		end
+	
+		//Identifica si hay overflow o underflow
+		if((exp_X + exp_Y) <= (127))begin 
+			udrf = 1;
+		end else if( (exp_X + exp_Y) >= (255+127) )begin
+			ovrf = 1;
 		end
 
 		//Se revisan los casos especiales (0, infinito y NaN)
