@@ -39,7 +39,7 @@ class driver extends uvm_driver #(Item);
 		count = 0;
 		while(count < m_item.delay)begin
 	    		count = count+1;
-			if(count == m_item.delay)begin
+			if(count == m_item.delay)begin // Revisa hasta que el contador "count" sea igual al delay en m_item
 				@(vif.cb);
 	      				vif.cb.fp_Y <= m_item.fp_Y;
 					vif.cb.fp_X <= m_item.fp_X;

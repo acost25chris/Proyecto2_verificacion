@@ -4,11 +4,11 @@ class scoreboard extends uvm_scoreboard;
     	bit 		sign_X, sign_Y, sign_result;
     	logic [7:0] 	exp_X, exp_Y, exp_result;
     	logic [23:0] 	mantissa_X, mantissa_Y;
-    	logic [47:0] 	mantissa_product; // Mantener 48 bits para el producto
-    	logic [22:0] 	mantissa_final;
-    	bit 		guard, round, sticky;
-    	bit [31:0] 	expected_result;
-	Item 		scoreboard_DB[$];
+    	logic [47:0] 	mantissa_product; 		// Mantener 48 bits para el producto
+    	logic [22:0] 	mantissa_final;			// Mantisa a usar para el resultado final
+    	bit 		guard, round, sticky;		// Bits necesarios para trabajar el tipo de redondeo
+    	bit [31:0] 	expected_result;		// Variable para comparar el resultado del DUT
+	Item 		scoreboard_DB[$];		// Cola con la funcion de almacenar los Item objects
 	Item		item_aux;
 	int		csv_file;
 	bit		flag = 0; 
@@ -27,10 +27,10 @@ class scoreboard extends uvm_scoreboard;
     	virtual function void write(Item item);
 		expected_result = 0;
         	expected_mul(item);
-		if(flag == 1) begin
+		if(flag == 1) begin // Evita imprimir un error innecesario ya que el DUT en la primer iteracion envia basura
         		`uvm_info("SCBD", $sformatf("in1=%0d in2=%0d DUT_out=%0d round mode=%0d", item.fp_X, item.fp_Y, item.fp_Z, item.r_mode), UVM_LOW)
 		end else begin
-			flag = 1;
+			flag = 1; //Hardset en 1 el valor de flag para que evite el if anterior en los siguientes write
 		end
 
         	if (item.fp_Z == expected_result) begin
@@ -188,11 +188,5 @@ class scoreboard extends uvm_scoreboard;
 
 endclass
 
-/*
-//assercion para confirma que el dato recibido es similar al dato esperado
-		assert((item.fp_Z- expected_result)<tolerance)
-			else `uvm_error("MISMATCH", "Producto en DUT no coincide con el valor esperado.");
-		//-----------------------------------------------------------------------
-*/
     
 

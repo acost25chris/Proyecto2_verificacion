@@ -8,10 +8,10 @@ class gen_item_seq extends uvm_sequence;
 
   	rand int num;
 
-  	constraint c1{soft num inside {[30:60]};}
+  	constraint c1{soft num inside {[30:60]};} // Constraint para evitar un numero muy grande o pequeno de transacciones
 
   	virtual task body();
-		//X transacciones randome, incluyendo numeros maximos y minimos
+		// num transacciones randome
 		Item m_item = Item::type_id::create("m_item");
     		for(int i = 0; i<num;i++)begin
       			start_item(m_item);
@@ -21,7 +21,7 @@ class gen_item_seq extends uvm_sequence;
     		end
     		`uvm_info("SEQ",$sformatf("Done generation of %0d items", num),UVM_LOW);
 		
-		// Multiplicador es infinito
+		// transaccion: Multiplicador es infinito
 		$display("X = inf");
       		start_item(m_item);
       		m_item.randomize();
@@ -29,7 +29,7 @@ class gen_item_seq extends uvm_sequence;
       		`uvm_info("SEQ",$sformatf("Generate new item: %s", m_item.convert2str()),UVM_HIGH);
       		finish_item(m_item);
 
-		// Multiplicador es cero
+		// transaccion: Multiplicador es cero
 		$display("X = 0");
       		start_item(m_item);
       		m_item.randomize();
@@ -37,7 +37,7 @@ class gen_item_seq extends uvm_sequence;
       		`uvm_info("SEQ",$sformatf("Generate new item: %s", m_item.convert2str()),UVM_HIGH);
       		finish_item(m_item);
 
-		// 0x0 
+		// transaccion: 0x0 
 		$display("0 x 0");
 		start_item(m_item);
       		m_item.randomize();
@@ -46,7 +46,7 @@ class gen_item_seq extends uvm_sequence;
       		`uvm_info("SEQ",$sformatf("Generate new item: %s", m_item.convert2str()),UVM_HIGH);
       		finish_item(m_item);
 
-		// Mltiplicacion invalida ( Inf x Inf )
+		// transaccion: Mltiplicacion invalida ( Inf x Inf )
 		$display("Inf x inf");
 		start_item(m_item);
       		m_item.randomize();
@@ -55,7 +55,7 @@ class gen_item_seq extends uvm_sequence;
       		`uvm_info("SEQ",$sformatf("Generate new item: %s", m_item.convert2str()),UVM_HIGH);
       		finish_item(m_item);
 
-      		// NaN
+      		// transaccion: NaN
 		$display("NaN");
 		start_item(m_item);
       		m_item.randomize();
