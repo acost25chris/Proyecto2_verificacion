@@ -8,13 +8,10 @@ class scoreboard extends uvm_scoreboard;
     	logic [22:0] 	mantissa_final;
     	bit 		guard, round, sticky;
     	bit [31:0] 	expected_result;
-		Item 		scoreboard_DB[$];
-		Item		item_aux;
-		int		csv_file;
-		bit		flag = 0; 
-		//variable para la assercion
-		real tolerance = 1e-5;
-		//-------------------------
+	Item 		scoreboard_DB[$];
+	Item		item_aux;
+	int		csv_file;
+	bit		flag = 0; 
 
     	function new(string name="scoreboard", uvm_component parent=null);
         	super.new(name, parent);
@@ -36,15 +33,10 @@ class scoreboard extends uvm_scoreboard;
 			flag = 1;
 		end
 
-		//assercion para confirma que el dato recibido es similar al dato esperado
-		assert((item.fp_Z- expected_result)<tolerance)
-			else `uvm_error("MISMATCH", "Producto en DUT no coincide con el valor esperado.");
-		//-----------------------------------------------------------------------
-
-        	if (item.fp_Z != expected_result) begin
-            		`uvm_error("SCBD", $sformatf("ERROR: DUT=%0b expected=%0b", item.fp_Z, expected_result))
-        	end else begin
+        	if (item.fp_Z == expected_result) begin
             		`uvm_info("SCBD", $sformatf("PASS: DUT=%0d expected=%0d", item.fp_Z, expected_result), UVM_HIGH)
+        	end else begin
+			`uvm_error("SCBD", $sformatf("ERROR: DUT=%0b expected=%0b", item.fp_Z, expected_result))
         	end
 	
 		scoreboard_DB.push_back(item); //Guarda el item recibido del monitor
@@ -106,59 +98,60 @@ class scoreboard extends uvm_scoreboard;
 
 			// Aplicar el redondeo según el modo seleccionado
 			case (item.r_mode)
-			3'b000: begin // Redondeo al par más cercano (round to nearest, ties to even)
-		        	if (round && (guard || sticky)) begin
-		            		mantissa_final = mantissa_product[45:23] + 1;
-		        	end else begin
-		            		mantissa_final = mantissa_product[45:23];
-		        	end
-		    	end
+				3'b000: begin // Redondeo al par más cercano (round to nearest, ties to even)
+					if (round && (guard || sticky)) begin
+				    		mantissa_final = mantissa_product[45:23] + 1;
+					end else begin
+				    		mantissa_final = mantissa_product[45:23];
+					end
+			    	end
 
-		    	3'b001: begin // Redondeo hacia cero (round towards zero)
-				mantissa_final = mantissa_product[45:23];
-			end
-
-		    	3'b010: begin // Redondeo hacia -infinito
-				if (sign_result == 1) begin
-				   	mantissa_final = mantissa_product[45:23] + 1;
-				end else begin
+			    	3'b001: begin // Redondeo hacia cero (round towards zero)
 					mantissa_final = mantissa_product[45:23];
 				end
+
+			    	3'b010: begin // Redondeo hacia -infinito
+					if (sign_result == 1) begin
+					   	mantissa_final = mantissa_product[45:23] + 1;
+					end else begin
+						mantissa_final = mantissa_product[45:23];
+					end
+				end
+
+			    	3'b011: begin // Redondeo hacia +infinito
+					if (sign_result == 0) begin
+				    		mantissa_final = mantissa_product[45:23] + 1;
+					end else begin
+				    		mantissa_final = mantissa_product[45:23];
+					end
+			    	end
+
+			    	3'b100: begin // Redondeo a más cercano, fuera de cero 
+					if (round == 1) begin
+				    		mantissa_final = mantissa_product[45:23] + 1;
+					end else begin
+				    		mantissa_final = mantissa_product[45:23];
+					end
+			    	end
+
+			    	default: begin // Si no se especifica, usar redondeo al par más cercano
+					mantissa_final = mantissa_product[45:23];
+			    	end
+			endcase
+
+			// Empaquetar el resultado final en IEEE-754
+			if (item.ovrf == 1) begin // Overflow, resultado es infinito
+			    	expected_result = {sign_result, 8'hFF, 23'h0};
+				item.fp_esperado = expected_result;
+			
+			end else if (item.udrf == 1) begin // Underflow, resultado es cero
+			    	expected_result = {sign_result, 8'h00, 23'h0};
+				item.fp_esperado = expected_result;
+
+			end else begin // El resultado esperado es el resultado de la multiplicacion final
+			    	expected_result = {sign_result, exp_result[7:0], mantissa_final};
+				item.fp_esperado = expected_result;
 			end
-
-		    	3'b011: begin // Redondeo hacia +infinito
-		        	if (sign_result == 0) begin
-		            		mantissa_final = mantissa_product[45:23] + 1;
-		        	end else begin
-		            		mantissa_final = mantissa_product[45:23];
-		        	end
-		    	end
-
-		    	3'b100: begin // Redondeo a más cercano, fuera de cero 
-				if (round == 1) begin
-		            		mantissa_final = mantissa_product[45:23] + 1;
-		        	end else begin
-		            		mantissa_final = mantissa_product[45:23];
-		        	end
-		    	end
-
-		    	default: begin // Si no se especifica, usar redondeo al par más cercano
-		        	mantissa_final = mantissa_product[45:23];
-		    	end
-		endcase
-
-		// Empaquetar el resultado final en IEEE-754
-		if (item.ovrf == 1) begin // Overflow, resultado es infinito
-		    	expected_result = {sign_result, 8'hFF, 23'h0};
-			item.fp_esperado = expected_result;
-		
-		end else if (item.udrf == 1) begin // Underflow, resultado es cero
-		    	expected_result = {sign_result, 8'h00, 23'h0};
-			item.fp_esperado = expected_result;
-
-		end else begin // El resultado esperado es el resultado de la multiplicacion final
-		    	expected_result = {sign_result, exp_result[7:0], mantissa_final};
-			item.fp_esperado = expected_result;
 		end
 	endfunction
 	
@@ -195,5 +188,11 @@ class scoreboard extends uvm_scoreboard;
 
 endclass
 
+/*
+//assercion para confirma que el dato recibido es similar al dato esperado
+		assert((item.fp_Z- expected_result)<tolerance)
+			else `uvm_error("MISMATCH", "Producto en DUT no coincide con el valor esperado.");
+		//-----------------------------------------------------------------------
+*/
     
 

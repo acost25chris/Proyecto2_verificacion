@@ -8,18 +8,10 @@ class gen_item_seq extends uvm_sequence;
 
   	rand int num;
 
-  	constraint c1{soft num inside {[10:30]};}
+  	constraint c1{soft num inside {[30:60]};}
 
   	virtual task body();
 		//X transacciones randome, incluyendo numeros maximos y minimos
-		Item m_item = Item::type_id::create("m_item");
-
-			//assercion para saber si el valor esta en el rango sugerido
-			assert(num inside {[10:30]})
-				else `uvm_error("SEQ", $sformatf("Aserción fallida: 'num' fuera de rango: %0d", num));
-			//-----------------------------------------------------------
-
-    		//X transacciones randome, incluyendo numeros maximos y minimos
 		Item m_item = Item::type_id::create("m_item");
     		for(int i = 0; i<num;i++)begin
       			start_item(m_item);
